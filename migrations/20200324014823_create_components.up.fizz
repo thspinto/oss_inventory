@@ -1,0 +1,14 @@
+create_table("components") {
+	t.Column("id", "uuid", {primary: true})
+	t.Column("type", "string", {})
+	t.Column("publisher", "string", {"null": true})
+	t.Column("group", "string", {"null": true})
+	t.Column("name", "string", {})
+	t.Column("version", "string", {})
+	t.Column("purl", "string", {"null": true})
+	t.Column("licenses", "text[]", {"null": true})
+	t.Timestamps()
+}
+
+add_index("components", "purl", {"unique": true})
+add_index("components", ["name", "version"], {"unique": true})

@@ -1,0 +1,8 @@
+<div class="py-4 mb-2">
+  <h3 class="d-inline-block">Edit Component</h3>
+</div>
+
+<%= formFor(component, {action: componentPath({ component_id: component.ID }), method: "PUT"}) { %>
+  <%= partial("components/form.html") %>
+  <%= linkTo(componentPath({ component_id: component.ID }), {class: "btn btn-warning", "data-confirm": "Are you sure?", body: "Cancel"}) %>
+<% } %>

@@ -1,0 +1,6 @@
+- id: "component.created.success"
+  translation: "Component was successfully created."
+- id: "component.updated.success"
+  translation: "Component was successfully updated."
+- id: "component.destroyed.success"
+  translation: "Component was successfully destroyed."

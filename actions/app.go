@@ -62,7 +62,7 @@ func App() *buffalo.App {
 		app.GET("/", HomeHandler)
 
 		app.Resource("/components", ComponentsResource{})
-		app.Resource("/components", ComponentsResource{})
+		app.Resource("/boms", BomsResource{})
 		app.ServeFiles("/", assetsBox) // serve files from the public directory
 	}
 

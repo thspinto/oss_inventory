@@ -21,6 +21,21 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: boms; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.boms (
+    id uuid NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    project character varying(255) NOT NULL,
+    version character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.boms OWNER TO postgres;
+
+--
 -- Name: components; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -34,7 +49,8 @@ CREATE TABLE public.components (
     purl character varying(255),
     licenses text[],
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    bom_id uuid NOT NULL
 );
 
 
@@ -52,11 +68,26 @@ CREATE TABLE public.schema_migration (
 ALTER TABLE public.schema_migration OWNER TO postgres;
 
 --
+-- Name: boms boms_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.boms
+    ADD CONSTRAINT boms_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: components components_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.components
     ADD CONSTRAINT components_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: boms_project_version_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX boms_project_version_idx ON public.boms USING btree (project, version);
 
 
 --
@@ -78,6 +109,14 @@ CREATE UNIQUE INDEX components_purl_idx ON public.components USING btree (purl);
 --
 
 CREATE UNIQUE INDEX schema_migration_version_idx ON public.schema_migration USING btree (version);
+
+
+--
+-- Name: components components_bom_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.components
+    ADD CONSTRAINT components_bom_id_fkey FOREIGN KEY (bom_id) REFERENCES public.components(id) ON DELETE CASCADE;
 
 
 --

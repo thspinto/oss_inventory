@@ -23,7 +23,7 @@ require (
 	github.com/gobuffalo/x v0.0.0-20190224155809-6bb134105960
 	github.com/gofrs/uuid v3.2.0+incompatible
 	github.com/markbates/grift v1.1.0
-	github.com/pkg/errors v0.9.1 // indirect
+	github.com/pkg/errors v0.9.1
 	github.com/unrolled/secure v0.0.0-20190103195806-76e6d4e9b90c
 	golang.org/x/sync v0.0.0-20200317015054-43a5402ce75a // indirect
 )

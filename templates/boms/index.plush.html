@@ -1,0 +1,33 @@
+<div class="py-4 mb-2">
+  <h3 class="d-inline-block">Boms</h3>
+  <div class="float-right">
+    <%= linkTo(newBomsPath(), {class: "btn btn-primary"}) { %>
+      Create New Bom
+    <% } %>
+  </div>
+</div>
+
+<table class="table table-hover table-bordered">
+  <thead class="thead-light">
+    
+    <th>&nbsp;</th>
+  </thead>
+  <tbody>
+    <%= for (bom) in boms { %>
+      <tr>
+        
+        <td>
+          <div class="float-right">
+            <%= linkTo(bomPath({ bom_id: bom.ID }), {class: "btn btn-info", body: "View"}) %>
+            <%= linkTo(editBomPath({ bom_id: bom.ID }), {class: "btn btn-warning", body: "Edit"}) %>
+            <%= linkTo(bomPath({ bom_id: bom.ID }), {class: "btn btn-danger", "data-method": "DELETE", "data-confirm": "Are you sure?", body: "Destroy"}) %>
+          </div>
+        </td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
+
+<div class="text-center">
+  <%= paginator(pagination) %>
+</div>

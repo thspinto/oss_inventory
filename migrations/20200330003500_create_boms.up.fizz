@@ -1,0 +1,8 @@
+create_table("boms") {
+	t.Column("id", "uuid", {primary: true})
+	t.Timestamps()
+	t.Column("project", "string", {})
+	t.Column("version", "string", {})
+}
+
+add_index("boms", ["project", "version"], {"unique": true})

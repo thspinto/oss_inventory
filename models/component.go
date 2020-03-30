@@ -23,6 +23,8 @@ type Component struct {
 	Version   string        `xml:"version" json:"version" db:"version"`
 	Licenses  slices.String `xml:"licenses>licence>name" json:"licenses" db:"licenses"`
 	Purl      string        `xml:"purl" json:"purl" db:"purl"`
+	BomID     int           `json:"-" db:"bom_id"`
+	Bom       *Bom          `json:"bom,omitempty" belongs_to:"bom"`
 }
 
 // String is not required by pop and may be deleted

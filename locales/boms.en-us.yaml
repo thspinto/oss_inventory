@@ -1,0 +1,6 @@
+- id: "bom.created.success"
+  translation: "Bom was successfully created."
+- id: "bom.updated.success"
+  translation: "Bom was successfully updated."
+- id: "bom.destroyed.success"
+  translation: "Bom was successfully destroyed."

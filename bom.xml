@@ -19,6 +19,5 @@
       </licenses>
       <purl>pkg:maven/org.apache.tomcat/tomcat-catalina@9.0.14?packaging=jar</purl>
     </component>
-      <!-- More components here -->
   </components>
 </bom>

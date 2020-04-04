@@ -2,9 +2,9 @@ package models
 
 import (
 	"encoding/json"
+	"encoding/xml"
 	"time"
 
-	"github.com/gobuffalo/buffalo/binding"
 	"github.com/gobuffalo/pop"
 	"github.com/gobuffalo/validate"
 	"github.com/gofrs/uuid"
@@ -12,13 +12,13 @@ import (
 
 // Bom is used by pop to map your .model.Name.Proper.Pluralize.Underscore database table to your go code.
 type Bom struct {
-	ID         uuid.UUID    `json:"id" db:"id"`
-	CreatedAt  time.Time    `json:"created_at" db:"created_at"`
-	UpdatedAt  time.Time    `json:"updated_at" db:"updated_at"`
-	Components []Components `json:"components,omitempty" has_many:"components"`
-	Project    string       `json:"project" db:"project"`
-	Version    string       `json:"version" db:"version"`
-	Cyclonedx  binding.File `db:"-" form:"Cyclonedx"`
+	XMLName    xml.Name   `xml:"bom" db:"-"`
+	ID         uuid.UUID  `json:"id" db:"id"`
+	CreatedAt  time.Time  `json:"created_at" db:"created_at"`
+	UpdatedAt  time.Time  `json:"updated_at" db:"updated_at"`
+	Components Components `xml:"components>component" json:"components,omitempty" has_many:"components"`
+	Project    string     `json:"project" db:"project"`
+	Version    string     `json:"version" db:"version"`
 }
 
 // String is not required by pop and may be deleted

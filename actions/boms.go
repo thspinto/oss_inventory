@@ -1,9 +1,13 @@
 package actions
 
 import (
+	"encoding/xml"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"oss_inventory/models"
+	"strings"
+	"unicode"
 
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/pop"
@@ -104,6 +108,17 @@ func (v BomsResource) Create(c buffalo.Context) error {
 
 	// Bind bom to the html form elements
 	if err := c.Bind(bom); err != nil {
+		return err
+	}
+
+	f, err := c.File("Cyclonedx")
+	xmlData, err := ioutil.ReadAll(f)
+	if err != nil {
+		return err
+	}
+
+	xmlData = []byte(strings.Map(stripInvalidXML, string(xmlData)))
+	if err = xml.Unmarshal(xmlData, bom); err != nil {
 		return err
 	}
 
@@ -257,4 +272,12 @@ func (v BomsResource) Destroy(c buffalo.Context) error {
 	}).Wants("xml", func(c buffalo.Context) error {
 		return c.Render(http.StatusOK, r.XML(bom))
 	}).Respond(c)
+}
+
+// stripInvalidXML removes invalid xml characters
+func stripInvalidXML(r rune) rune {
+	if unicode.IsPrint(r) {
+		return r
+	}
+	return -1
 }

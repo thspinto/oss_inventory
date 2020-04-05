@@ -36,6 +36,19 @@ CREATE TABLE public.boms (
 ALTER TABLE public.boms OWNER TO postgres;
 
 --
+-- Name: component_licenses; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.component_licenses (
+    license_id uuid NOT NULL,
+    component_id uuid NOT NULL,
+    created_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.component_licenses OWNER TO postgres;
+
+--
 -- Name: components; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -57,6 +70,22 @@ CREATE TABLE public.components (
 ALTER TABLE public.components OWNER TO postgres;
 
 --
+-- Name: licenses; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.licenses (
+    id uuid NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    spdx_id character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    url character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.licenses OWNER TO postgres;
+
+--
 -- Name: schema_migration; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -76,11 +105,27 @@ ALTER TABLE ONLY public.boms
 
 
 --
+-- Name: component_licenses component_licenses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.component_licenses
+    ADD CONSTRAINT component_licenses_pkey PRIMARY KEY (license_id, component_id);
+
+
+--
 -- Name: components components_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.components
     ADD CONSTRAINT components_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: licenses licenses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.licenses
+    ADD CONSTRAINT licenses_pkey PRIMARY KEY (id);
 
 
 --
@@ -105,6 +150,13 @@ CREATE UNIQUE INDEX components_purl_idx ON public.components USING btree (purl);
 
 
 --
+-- Name: licenses_spdx_id_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX licenses_spdx_id_idx ON public.licenses USING btree (spdx_id);
+
+
+--
 -- Name: schema_migration_version_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -112,11 +164,27 @@ CREATE UNIQUE INDEX schema_migration_version_idx ON public.schema_migration USIN
 
 
 --
+-- Name: component_licenses component_licenses_component_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.component_licenses
+    ADD CONSTRAINT component_licenses_component_id_fkey FOREIGN KEY (component_id) REFERENCES public.components(id);
+
+
+--
+-- Name: component_licenses component_licenses_license_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.component_licenses
+    ADD CONSTRAINT component_licenses_license_id_fkey FOREIGN KEY (license_id) REFERENCES public.licenses(id);
+
+
+--
 -- Name: components components_bom_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.components
-    ADD CONSTRAINT components_bom_id_fkey FOREIGN KEY (bom_id) REFERENCES public.components(id) ON DELETE CASCADE;
+    ADD CONSTRAINT components_bom_id_fkey FOREIGN KEY (bom_id) REFERENCES public.boms(id) ON DELETE CASCADE;
 
 
 --

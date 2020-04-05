@@ -22,33 +22,10 @@ type Component struct {
 	Group     nulls.String `xml:"group" json:"group" db:"group"`
 	Name      string       `xml:"name" json:"name" db:"name"`
 	Version   string       `xml:"version" json:"version" db:"version"`
-	Licenses  Licenses     `xml:"licenses>license" json:"licenses" db:"licenses"`
+	Licenses  Licenses     `xml:"licenses>license" json:"licenses,omitempty" many_to_many:"component_licenses"`
 	Purl      string       `xml:"purl" json:"purl" db:"purl"`
-	BomID     int          `json:"-" db:"bom_id"`
+	BomID     uuid.UUID    `json:"-" db:"bom_id"`
 	Bom       *Bom         `json:"bom,omitempty" belongs_to:"bom"`
-}
-
-// License is not required by pop and may be deleted
-type License struct {
-	XMLName xml.Name     `xml:"license"`
-	ID      string       `xml:"id" json:"id"`
-	Name    nulls.String `xml:"name" json:"name"`
-	URL     nulls.String `xml:"url" json:"url"`
-}
-
-// String is not required by pop and may be deleted
-func (c License) String() string {
-	jc, _ := json.Marshal(c)
-	return string(jc)
-}
-
-// Licenses is not required by pop and may be deleted
-type Licenses []License
-
-// String is not required by pop and may be deleted
-func (c Licenses) String() string {
-	jc, _ := json.Marshal(c)
-	return string(jc)
 }
 
 // String is not required by pop and may be deleted

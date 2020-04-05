@@ -1,0 +1,9 @@
+create_table("licenses") {
+	t.Column("id", "uuid", {primary: true})
+  t.Timestamps()
+	t.Column("spdx_id", "string", {})
+  t.Column("name", "string", {})
+	t.Column("url", "string", {})
+}
+
+add_index("licenses", "spdx_id", {"unique": true})

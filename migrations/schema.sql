@@ -43,7 +43,7 @@ CREATE TABLE public.component_licenses (
     id uuid NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    license_id character varying(255) NOT NULL,
+    license_id uuid NOT NULL,
     component_id uuid NOT NULL
 );
 
@@ -62,7 +62,6 @@ CREATE TABLE public.components (
     name character varying(255) NOT NULL,
     version character varying(255) NOT NULL,
     purl character varying(255),
-    licenses text[],
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     bom_id uuid NOT NULL
@@ -76,7 +75,8 @@ ALTER TABLE public.components OWNER TO postgres;
 --
 
 CREATE TABLE public.licenses (
-    id character varying(255) NOT NULL,
+    id uuid NOT NULL,
+    spdx character varying(255) NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     name character varying(255),
@@ -141,13 +141,6 @@ CREATE UNIQUE INDEX boms_project_version_idx ON public.boms USING btree (project
 --
 
 CREATE UNIQUE INDEX components_name_version_idx ON public.components USING btree (name, version);
-
-
---
--- Name: components_purl_idx; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE UNIQUE INDEX components_purl_idx ON public.components USING btree (purl);
 
 
 --

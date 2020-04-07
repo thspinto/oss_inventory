@@ -1,7 +1,7 @@
 create_table("component_licenses") {
 	t.Column("id", "uuid", {})
 	t.Timestamps()
-	t.Column("license_id", "string", {})
+	t.Column("license_id", "uuid", {})
 	t.Column("component_id", "uuid", {})
 	t.PrimaryKey("license_id", "component_id")
   t.ForeignKey("license_id", {"licenses": ["id"]}, {"on_delete": "cascade"})

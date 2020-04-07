@@ -6,11 +6,9 @@ create_table("components") {
 	t.Column("name", "string", {})
 	t.Column("version", "string", {})
 	t.Column("purl", "string", {"null": true})
-	t.Column("licenses", "text[]", {"null": true})
 	t.Timestamps()
   t.Column("bom_id", "uuid", {})
 	t.ForeignKey("bom_id", {"boms": ["id"]}, {"on_delete": "cascade"})
 }
 
-add_index("components", "purl", {"unique": true})
 add_index("components", ["name", "version"], {"unique": true})

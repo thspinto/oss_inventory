@@ -11,11 +11,11 @@ import (
 
 // ComponentLicense is used by pop to map your .model.Name.Proper.Pluralize.Underscore database table to your go code.
 type ComponentLicense struct {
-	ID          uuid.UUID `json:"id" db:"id"` // Just keeping this because it seams that pop uses the ip column
-	CreatedAt   time.Time `json:"created_at" db:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at" db:"updated_at"`
-	LicenseID   string    `json:"-" db:"license_id"`
-	ComponentID uuid.UUID `json:"-" db:"component_id"`
+	ID          uuid.UUID `db:"id"` // Just keeping this because it seams that pop uses the ip column
+	CreatedAt   time.Time `db:"created_at"`
+	UpdatedAt   time.Time `db:"updated_at"`
+	LicenseID   uuid.UUID `db:"license_id"`
+	ComponentID uuid.UUID `db:"component_id"`
 }
 
 // ComponentLicenses is not required by pop and may be deleted

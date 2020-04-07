@@ -1,4 +1,5 @@
 create_table("component_licenses") {
+	t.Column("id", "uuid", {})
 	t.Column("license_id", "uuid", {})
 	t.Column("component_id", "uuid", {})
 	t.PrimaryKey("license_id", "component_id")

@@ -60,3 +60,46 @@ func (c *Component) ValidateCreate(tx *pop.Connection) (*validate.Errors, error)
 func (c *Component) ValidateUpdate(tx *pop.Connection) (*validate.Errors, error) {
 	return validate.NewErrors(), nil
 }
+
+// AssociateLicenses wraps the logic of creating the association between component and license
+func (c *Component) AssociateLicenses(tx *pop.Connection, licenses Licenses) error {
+	for _, license := range licenses {
+		componentLicense := &ComponentLicense{
+			LicenseID:   license.ID,
+			ComponentID: c.ID,
+		}
+		err := tx.Create(componentLicense)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// DissociateLicenses wraps the logic of creating the association between component and license
+func (c *Component) DissociateLicenses(tx *pop.Connection, licenses Licenses) error {
+	for _, license := range licenses {
+		componentLicense := &ComponentLicense{}
+		if err := tx.Where("component_id = ?", c.ID).Where("license_id = ?", license.ID).First(componentLicense); err != nil {
+			return err
+		}
+		return tx.Destroy(componentLicense)
+	}
+	return nil
+}
+
+// TODO: Validate license on before validate
+
+// AfterCreate add create and adds license associations
+func (c *Component) AfterCreate(tx *pop.Connection) error {
+	err := tx.Create(c.Licenses)
+	if err != nil {
+		return err
+	}
+	return c.AssociateLicenses(tx, c.Licenses)
+}
+
+// BeforeDestroy remove license associations
+func (c *Component) BeforeDestroy(tx *pop.Connection) error {
+	return c.DissociateLicenses(tx, c.Licenses)
+}

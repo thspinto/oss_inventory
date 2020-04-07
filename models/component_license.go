@@ -11,6 +11,7 @@ import (
 
 // ComponentLicense is used by pop to map your .model.Name.Proper.Pluralize.Underscore database table to your go code.
 type ComponentLicense struct {
+	ID          uuid.UUID `json:"id" db:"id"` // Just keeping this because it seams that pop uses the ip column
 	CreatedAt   time.Time `json:"created_at" db:"created_at"`
 	LicenseID   uuid.UUID `json:"-" db:"license_id"`
 	ComponentID uuid.UUID `json:"-" db:"component_id"`
@@ -48,5 +49,3 @@ func (c *ComponentLicenses) ValidateCreate(tx *pop.Connection) (*validate.Errors
 func (c *ComponentLicenses) ValidateUpdate(tx *pop.Connection) (*validate.Errors, error) {
 	return validate.NewErrors(), nil
 }
-
-//TODO: Create license / component association and dissociation

@@ -40,6 +40,7 @@ ALTER TABLE public.boms OWNER TO postgres;
 --
 
 CREATE TABLE public.component_licenses (
+    id uuid NOT NULL,
     license_id uuid NOT NULL,
     component_id uuid NOT NULL,
     created_at timestamp without time zone NOT NULL
@@ -78,8 +79,8 @@ CREATE TABLE public.licenses (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     spdx_id character varying(255) NOT NULL,
-    name character varying(255) NOT NULL,
-    url character varying(255) NOT NULL
+    name character varying(255),
+    url character varying(255)
 );
 
 

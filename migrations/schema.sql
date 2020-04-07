@@ -41,9 +41,10 @@ ALTER TABLE public.boms OWNER TO postgres;
 
 CREATE TABLE public.component_licenses (
     id uuid NOT NULL,
-    license_id uuid NOT NULL,
-    component_id uuid NOT NULL,
-    created_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    license_id character varying(255) NOT NULL,
+    component_id uuid NOT NULL
 );
 
 
@@ -75,10 +76,9 @@ ALTER TABLE public.components OWNER TO postgres;
 --
 
 CREATE TABLE public.licenses (
-    id uuid NOT NULL,
+    id character varying(255) NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    spdx_id character varying(255) NOT NULL,
     name character varying(255),
     url character varying(255)
 );
@@ -151,13 +151,6 @@ CREATE UNIQUE INDEX components_purl_idx ON public.components USING btree (purl);
 
 
 --
--- Name: licenses_spdx_id_idx; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE UNIQUE INDEX licenses_spdx_id_idx ON public.licenses USING btree (spdx_id);
-
-
---
 -- Name: schema_migration_version_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -169,7 +162,7 @@ CREATE UNIQUE INDEX schema_migration_version_idx ON public.schema_migration USIN
 --
 
 ALTER TABLE ONLY public.component_licenses
-    ADD CONSTRAINT component_licenses_component_id_fkey FOREIGN KEY (component_id) REFERENCES public.components(id);
+    ADD CONSTRAINT component_licenses_component_id_fkey FOREIGN KEY (component_id) REFERENCES public.components(id) ON DELETE CASCADE;
 
 
 --
@@ -177,7 +170,7 @@ ALTER TABLE ONLY public.component_licenses
 --
 
 ALTER TABLE ONLY public.component_licenses
-    ADD CONSTRAINT component_licenses_license_id_fkey FOREIGN KEY (license_id) REFERENCES public.licenses(id);
+    ADD CONSTRAINT component_licenses_license_id_fkey FOREIGN KEY (license_id) REFERENCES public.licenses(id) ON DELETE CASCADE;
 
 
 --

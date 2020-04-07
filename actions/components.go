@@ -43,7 +43,7 @@ func (v ComponentsResource) List(c buffalo.Context) error {
 	q := tx.PaginateFromParams(c.Params())
 
 	// Retrieve all Components from the DB
-	if err := q.All(components); err != nil {
+	if err := q.Eager().All(components); err != nil {
 		return err
 	}
 

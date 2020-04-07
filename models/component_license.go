@@ -13,7 +13,8 @@ import (
 type ComponentLicense struct {
 	ID          uuid.UUID `json:"id" db:"id"` // Just keeping this because it seams that pop uses the ip column
 	CreatedAt   time.Time `json:"created_at" db:"created_at"`
-	LicenseID   uuid.UUID `json:"-" db:"license_id"`
+	UpdatedAt   time.Time `json:"updated_at" db:"updated_at"`
+	LicenseID   string    `json:"-" db:"license_id"`
 	ComponentID uuid.UUID `json:"-" db:"component_id"`
 }
 

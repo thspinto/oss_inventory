@@ -8,16 +8,14 @@ import (
 	"github.com/gobuffalo/nulls"
 	"github.com/gobuffalo/pop"
 	"github.com/gobuffalo/validate"
-	"github.com/gofrs/uuid"
 )
 
 // License is used by pop to map your .model.Name.Proper.Pluralize.Underscore database table to your go code.
 type License struct {
-	XMLName    xml.Name     `xml:"license" db:"-"`
-	ID         uuid.UUID    `json:"id" db:"id"`
+	XMLName    xml.Name     `xml:"license" json:"-" db:"-"`
+	ID         string       `xml:"id" json:"id" db:"id"`
 	CreatedAt  time.Time    `json:"created_at" db:"created_at"`
 	UpdatedAt  time.Time    `json:"updated_at" db:"updated_at"`
-	SPDXID     string       `xml:"id" json:"spdx_id" db:"spdx_id"`
 	Name       nulls.String `xml:"name" json:"name" db:"name"`
 	URL        nulls.String `xml:"url" json:"url" db:"url"`
 	Components Components   `json:"components,omitempty" many_to_many:"component_licenses"`

@@ -1,10 +1,9 @@
 create_table("component_licenses") {
 	t.Column("id", "uuid", {})
-	t.Column("license_id", "uuid", {})
+	t.Timestamps()
+	t.Column("license_id", "string", {})
 	t.Column("component_id", "uuid", {})
 	t.PrimaryKey("license_id", "component_id")
-	t.Column("created_at", "timestamp", {})
-  t.ForeignKey("license_id", {"licenses": ["id"]})
-  t.ForeignKey("component_id", {"components": ["id"]})
-	t.DisableTimestamps()
+  t.ForeignKey("license_id", {"licenses": ["id"]}, {"on_delete": "cascade"})
+  t.ForeignKey("component_id", {"components": ["id"]}, {"on_delete": "cascade"})
 }

@@ -12,7 +12,7 @@ import (
 
 // Bom is used by pop to map your .model.Name.Proper.Pluralize.Underscore database table to your go code.
 type Bom struct {
-	XMLName    xml.Name   `xml:"bom" db:"-"`
+	XMLName    xml.Name   `xml:"bom" json:"-" db:"-"`
 	ID         uuid.UUID  `json:"id" db:"id"`
 	CreatedAt  time.Time  `json:"created_at" db:"created_at"`
 	UpdatedAt  time.Time  `json:"updated_at" db:"updated_at"`

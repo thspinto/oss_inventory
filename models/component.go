@@ -13,7 +13,7 @@ import (
 
 // Component is used by pop to map your .model.Name.Proper.Pluralize.Underscore database table to your go code.
 type Component struct {
-	XMLName   xml.Name     `xml:"component" db:"-"`
+	XMLName   xml.Name     `xml:"component" json:"-" db:"-"`
 	ID        uuid.UUID    `json:"id" db:"id"`
 	CreatedAt time.Time    `json:"created_at" db:"created_at"`
 	UpdatedAt time.Time    `json:"updated_at" db:"updated_at"`
@@ -97,9 +97,4 @@ func (c *Component) AfterCreate(tx *pop.Connection) error {
 		return err
 	}
 	return c.AssociateLicenses(tx, c.Licenses)
-}
-
-// BeforeDestroy remove license associations
-func (c *Component) BeforeDestroy(tx *pop.Connection) error {
-	return c.DissociateLicenses(tx, c.Licenses)
 }

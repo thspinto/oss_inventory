@@ -46,6 +46,16 @@ func (c Components) String() string {
 // Validate gets run every time you call a "pop.Validate*" (pop.ValidateAndSave, pop.ValidateAndCreate, pop.ValidateAndUpdate) method.
 // This method is not required and may be deleted.
 func (c *Component) Validate(tx *pop.Connection) (*validate.Errors, error) {
+	q := tx.Where("name = ?", c.Name).Where("version = ?", c.Version).Select("id")
+	exists, err := q.Exists(c)
+	if err != nil {
+		return nil, err
+	}
+	if exists {
+		if err = q.First(c); err != nil {
+			return nil, err
+		}
+	}
 	return validate.NewErrors(), nil
 }
 
@@ -88,11 +98,9 @@ func (c *Component) DissociateLicenses(tx *pop.Connection, licenses Licenses) er
 	return nil
 }
 
-// TODO: Validate license on before validate
-
-// AfterCreate add create and adds license associations
-func (c *Component) AfterCreate(tx *pop.Connection) error {
-	err := tx.Create(c.Licenses)
+// AfterSave creates and adds license associations
+func (c *Component) AfterSave(tx *pop.Connection) error {
+	err := tx.Save(c.Licenses)
 	if err != nil {
 		return err
 	}

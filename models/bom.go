@@ -39,7 +39,16 @@ func (b Boms) String() string {
 // Validate gets run every time you call a "pop.Validate*" (pop.ValidateAndSave, pop.ValidateAndCreate, pop.ValidateAndUpdate) method.
 // This method is not required and may be deleted.
 func (b *Bom) Validate(tx *pop.Connection) (*validate.Errors, error) {
-	return validate.NewErrors(), nil
+	verr := validate.NewErrors()
+	q := tx.Where("project = ?", b.Project).Where("version = ?", b.Version).Select("id")
+	exists, err := q.Exists(b)
+	if err != nil {
+		return nil, err
+	}
+	if exists {
+		verr.Add("project_version_exists", "Project version has already been imported")
+	}
+	return verr, nil
 }
 
 // ValidateCreate gets run every time you call "pop.ValidateAndCreate" method.

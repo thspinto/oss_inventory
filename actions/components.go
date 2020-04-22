@@ -114,7 +114,7 @@ func (v ComponentsResource) Create(c buffalo.Context) error {
 	}
 
 	// Validate the data from the html form
-	verrs, err := tx.Eager().ValidateAndCreate(component)
+	verrs, err := tx.Eager().ValidateAndSave(component)
 	if err != nil {
 		return err
 	}

@@ -128,12 +128,8 @@ func (v BomsResource) Create(c buffalo.Context) error {
 		return fmt.Errorf("no transaction found")
 	}
 
-	fmt.Println("----------")
-	fmt.Println(bom.String())
-	fmt.Println("----------")
-
 	// Validate the data from the html form
-	verrs, err := tx.Eager().ValidateAndCreate(bom)
+	verrs, err := tx.Eager().ValidateAndSave(bom)
 	if err != nil {
 		return err
 	}

@@ -1,4 +1,6 @@
 # Welcome to Buffalo!
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fthspinto%2Foss_inventory.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fthspinto%2Foss_inventory?ref=badge_shield)
+
 
 Thank you for choosing Buffalo for your web development needs.
 
@@ -33,3 +35,7 @@ We recommend you heading over to [http://gobuffalo.io](http://gobuffalo.io) and 
 Good luck!
 
 [Powered by Buffalo](http://gobuffalo.io)
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fthspinto%2Foss_inventory.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fthspinto%2Foss_inventory?ref=badge_large)
